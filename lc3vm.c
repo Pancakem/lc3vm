@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <errno.h>
+#include <stdbool.h>
 
 #include "mem.h"
 #include "regs.h"
@@ -13,15 +14,15 @@ FILE *read_bin_file(const char *source) {
   return f;
 }
 
-int read_program_into_memory(const char *source, uint16_t *memory){
+bool read_program_into_memory(const char *source, uint16_t *memory){
   FILE *f = read_bin_file(source);
   if (!f) {
-    return -1;
+    return false;
   }
 
   uint16_t origin;
-  fread(&origin, sizeof(uint16_t), 1, f);
-    origin = bswap16(origin);
+  fread(&origin, sizeof(origin), 1, f);
+  origin = bswap16(origin);
   uint16_t *read_start = memory + origin;
   int read = fread(read_start, sizeof(uint16_t), UINT16_MAX - origin, f);
 
@@ -30,8 +31,7 @@ int read_program_into_memory(const char *source, uint16_t *memory){
     *read_start = bswap16(*read_start);
     ++read_start;
   }
-  return 0;
-  
+  return true;
 }
 
 int main(int argc, char **argv) {
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 
   uint16_t *mem = (uint16_t*)malloc(sizeof(uint16_t) * (1 << 16));
 
-  if(read_program_into_memory(argv[1], mem) == -1){
+  if(!read_program_into_memory(argv[1], mem)){
     puts("Could not open given program.");
     return -1;
   }
@@ -60,6 +60,7 @@ int main(int argc, char **argv) {
   while(cpu->running) {
     uint16_t instruction = read_memory(cpu->memory, cpu->registers[RPC]++);
     uint16_t opcode = decode_instruction(instruction);
+    // printf("\nRPC: %x\n", cpu->registers[RPC]);
     
     switch(opcode){
     case BR:
@@ -108,7 +109,7 @@ int main(int argc, char **argv) {
       lea(cpu, instruction);
       break;
     case TRAP:
-      trap(cpu, instruction);
+      trap(cpu, instruction);   
       break;
 
     // DEBUG

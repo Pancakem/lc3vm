@@ -7,7 +7,6 @@ void init_cpu(cpu_t *cpu) {
   zero_regs(cpu->registers);
 
   // set program start
-  cpu->registers[RPC] = 0x3000;
-  
+  cpu->registers[RPC] = 0x3000;  
   cpu->running = 1;
 }

@@ -1,7 +1,7 @@
 #include <stdint.h>
 
 struct CPU {
-  uint16_t memory[1 << 16];
+  uint16_t memory[UINT16_MAX];
   uint16_t registers[10];
   int running;
 };

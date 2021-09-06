@@ -8,7 +8,7 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 OBJ = lc3vm.o mem.o regs.o instr.o helper.o cpu.o trap.o
 
 lc3vm: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS)
+	$(CC) -g -o $@ $^ $(CFLAGS)
 
 .PHONY: clean
 

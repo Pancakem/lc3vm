@@ -1,1 +1,4 @@
 *.obj
+*.o
+lc3vm
+debug.log

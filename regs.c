@@ -1,10 +1,10 @@
 #include "regs.h"
 
-uint16_t read_reg(uint16_t *regs, int reg) {
+uint16_t read_reg(uint16_t *regs, unsigned short reg) {
   return read_data(regs, reg);
 }
 
-void write_reg(uint16_t *regs, int reg, uint16_t data){
+void write_reg(uint16_t *regs, unsigned short reg, uint16_t data){
   write_data(regs, reg, data);
 }
 

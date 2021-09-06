@@ -19,7 +19,7 @@
 #define FL_ZERO (1 << 1)
 #define FL_NEG (1 << 2)
 
-uint16_t read_reg(uint16_t *regs, int reg);
-void write_reg(uint16_t *regs, int reg, uint16_t data);
+uint16_t read_reg(uint16_t *regs, unsigned short reg);
+void write_reg(uint16_t *regs, unsigned short reg, uint16_t data);
 void zero_regs(uint16_t *regs);
 void update_flags(uint16_t *regs, uint16_t v);
