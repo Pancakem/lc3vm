@@ -1,15 +1,9 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include <signal.h>
-#include <unistd.h>
-#include <fcntl.h>
+#ifndef _HELPER_H_
+#define _HELPER_H_
 
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/termios.h>
+#include <stdint.h>
 #include <sys/mman.h>
+#include <sys/termios.h>
 
 struct termios original_tio;
 
@@ -22,3 +16,5 @@ void restore_input_buffering();
 void handle_interrupt(int signal);
 uint16_t bswap16(uint16_t x);
 uint16_t sign_extend(uint16_t x, int bit_count);
+
+#endif

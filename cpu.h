@@ -1,3 +1,6 @@
+#ifndef _CPU_H_
+#define _CPU_H_
+
 #include <stdint.h>
 
 struct CPU {
@@ -9,3 +12,5 @@ struct CPU {
 typedef struct CPU cpu_t;
 
 void init_cpu(cpu_t *cpu);
+
+#endif

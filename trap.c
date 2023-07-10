@@ -1,14 +1,15 @@
-#include <stdio.h>
 #include "trap.h"
 #include "regs.h"
+#include <stdio.h>
 
 void trap_routine(cpu_t *cpu, uint16_t tv8) {
   uint16_t c;
   uint16_t *cp;
   char char1, char2;
-  switch(tv8) {
+  switch (tv8) {
   case GETC:
     cpu->registers[R0] = (uint16_t)getchar();
+    update_flags(cpu->registers, R0);
     break;
   case OUT:
     putc((char)cpu->registers[R0], stdout);
@@ -27,16 +28,17 @@ void trap_routine(cpu_t *cpu, uint16_t tv8) {
     c = getchar();
     putc((char)c, stdout);
     cpu->registers[R0] = c;
+    update_flags(cpu->registers, R0);
     break;
   case PUTSP:
     cp = cpu->memory + cpu->registers[R0];
-    while (*cp)
-    {
+    while (*cp) {
       char1 = (*cp) & 0xFF;
       putc(char1, stdout);
       char2 = (*cp) >> 8;
-        if (char2) putc(char2, stdout);
-        ++cp;
+      if (char2)
+        putc(char2, stdout);
+      ++cp;
     }
     fflush(stdout);
     break;
@@ -49,5 +51,4 @@ void trap_routine(cpu_t *cpu, uint16_t tv8) {
     printf("Unknown trap opcode %d\n", tv8);
     break;
   }
-  
 }
